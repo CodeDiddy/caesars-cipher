@@ -1,4 +1,3 @@
-
 def message():
     """
     input = None
@@ -16,7 +15,6 @@ def message():
             print("That is not a number, try again")
     return (message, shift_number)
 
-result = message()
 
 def encode(message, shift_number):
     """
@@ -28,17 +26,12 @@ def encode(message, shift_number):
     cipher = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,./<>?!@#$%^&*(){}[];:'"
     indices = []
     word = ""
-    print(shift_number)
     for letter in message:
         ind = cipher.index(letter)
-        print(ind)
         if (ind + shift_number % len(cipher))  >= len(cipher):
-            print("Groot shift_number")
-            print(f"index cipher: {ind + (shift_number % len(cipher))}")
             word += cipher[ind + (shift_number % len(cipher)) - len(cipher)]
         else:
             word += cipher[ind + (shift_number % len(cipher))]
-    print(word)
     return word
 
 
@@ -52,19 +45,35 @@ def decode(encrypted_message, shift_number):
     cipher = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,./<>?!@#$%^&*(){}[];:'"
     indices = []
     word = ""
-    print(encrypted_message, shift_number)
     for letter in encrypted_message:
         ind = cipher.index(letter)
-        if (ind - shift_number % len(cipher)) <= len(cipher):
-            print(ind - shift_number % len(cipher), len(cipher))
-            print(f"index cipher: {ind - (shift_number % len(cipher)) + len(cipher)}")
+        if (ind - shift_number % len(cipher)) < 0:
             word += cipher[ind - (shift_number % len(cipher)) + len(cipher)]
         else:
             word += cipher[ind - (shift_number % len(cipher))]
     return word
 
-encoded = encode(*result)
-decoded = decode(encoded, result[1])
 
-print(encoded, decoded)
+def menu():
+    print("e - Encode your message\n")
+    print("d - Decode your message\n")
+    print("q -Quit\n")
+    
+while True:
+    menu()
+    choice = input("What do you want to do?\n")
+    if choice.lower() == "e":
+        e_message = message()
+        encoded = encode(*e_message)
+        print(encoded)
+    elif choice.lower() == "d":
+        d_message = message()
+        decoded = decode(*d_message)
+        print(decoded)
+    elif choice.lower() == "q":
+        print("Thank you for using Caesar's Cipher\nGoodbye!\n")
+        break
+    else:
+        print("That's not a valid choice.\n")
+        continue
 
